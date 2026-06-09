@@ -98,23 +98,41 @@
 
                 <li class="sidebar-item  has-sub">
                     <a href="#" class='sidebar-link'>
-                        <i class="bi bi-grid-1x2-fill"></i>
-                        <span>Layouts</span>
+                        <i class="bi bi-person-badge-fill"></i>
+                        <span>User Management</span>
                     </a>
                     <ul class="submenu ">
                         <li class="submenu-item ">
-                            <a href="layout-default.html">Default Layout</a>
+                            <a href="{{ route('user.index') }}">User</a>
                         </li>
                         <li class="submenu-item ">
-                            <a href="layout-vertical-1-column.html">1 Column</a>
+                            <a href="{{ route('user.create') }}">Create User</a>
                         </li>
                         <li class="submenu-item ">
-                            <a href="layout-vertical-navbar.html">Vertical with Navbar</a>
+                            <a href="{{ route('role.index') }}">Role</a>
                         </li>
                         <li class="submenu-item ">
-                            <a href="layout-horizontal.html">Horizontal Menu</a>
+                            <a href="{{ route('role.create') }}">Create Role</a>
                         </li>
                     </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('locker.index') }}" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Locker Management</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('key.index') }}" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Key Management</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('major.index') }}" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Major Management</span>
+                    </a>
                 </li>
 
                 <li class="sidebar-title">Forms &amp; Tables</li>

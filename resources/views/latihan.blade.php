@@ -10,7 +10,7 @@
 
 <body>
     <h1>Perhitungan Matematika</h1>
-    <a href="/tambah">Tambah</a>
+    <a href="{{route('user.create')}}">Tambah</a>
     <a href="{{ route('kurang') }}">Kurang</a>
     <a href="{{ route('bagi') }}">Bagi</a>
     <a href="{{ route('kali') }}">Kali</a>
