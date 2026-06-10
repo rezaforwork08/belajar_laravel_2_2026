@@ -45,6 +45,7 @@ Route::middleware(['auth', 'prevent-back'])->group(function () {
     Route::resource('key', \App\Http\Controllers\KeyController::class);
     Route::resource('major', \App\Http\Controllers\MajorController::class);
     Route::resource('student', \App\Http\Controllers\StudentController::class);
+    Route::resource('instructor', \App\Http\Controllers\InstructorController::class);
 
     // Route::get('locker', [LockerController::class, 'index'])->name('locker.index');
     // Route::get('locker/create', [LockerController::class, 'create'])->name('locker.create');

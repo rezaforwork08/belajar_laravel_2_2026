@@ -10,7 +10,8 @@ class Student extends Model
     protected $fillable = [
         'major_id',
         'name',
-        'phone'
+        'phone',
+        'user_id'
     ];
 
 
@@ -31,5 +32,10 @@ class Student extends Model
     public function major()
     {
         return $this->belongsTo(Majors::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

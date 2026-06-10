@@ -30,18 +30,6 @@
                     <input type="text" class="form-control" placeholder="Enter your phone" name="phone"
                         value="{{ $edit->phone }}">
                 </div>
-                <div class="mb-3">
-                    <label for="">Email </label>
-                    <input type="email" class="form-control" placeholder="Enter your email" name="email" required
-                        value="{{ $edit->user->email }}">
-                </div>
-                <div class="mb-3">
-                    <label for="">Password </label>
-                    <input type="password" class="form-control" placeholder="Enter your password" name="password">
-                    <span class="text-secondary">
-                        )* Leave blank if you don't want to change it.
-                    </span>
-                </div>
 
 
                 <button class="btn btn-primary" type="submit">Save</button>

@@ -14,36 +14,19 @@
                     <select name="major_id" id="" class="form-control">
                         <option value="">Select One</option>
                         @foreach ($majors as $major)
-                            <option @selected(old('major_id') == $major->id) value="{{ $major->id }}">
-                                {{ $major->name }}
-                            </option>
+                            <option value="{{ $major->id }}">{{ $major->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="">Name *</label>
-                    <input type="text" class="form-control
-                    @error('name') is-invalid @enderror"
-                        placeholder="Enter your name" name="name" value="{{ old('name') }}" required>
-                    @error('name')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                    <input type="text" class="form-control" placeholder="Enter your name" name="name" required>
                 </div>
                 <div class="mb-3">
                     <label for="">Phone </label>
                     <input type="number" class="form-control" placeholder="Enter your name" name="phone">
                 </div>
 
-                <div class="mb-3">
-                    <label for="">Email </label>
-                    <input type="email" class="form-control" placeholder="Enter your email" name="email" required>
-                </div>
-                <div class="mb-3">
-                    <label for="">Password </label>
-                    <input type="password" class="form-control" placeholder="Enter your password" name="password" required>
-                </div>
 
                 <button class="btn btn-primary" type="submit">Save</button>
                 <a href="{{ url()->previous() }}" class="text-secondary">Back</a>

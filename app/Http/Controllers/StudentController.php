@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Majors;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
@@ -16,7 +18,7 @@ class StudentController extends Controller
     public function index()
     {
 
-        $students = Student::with('major')->orderByDesc('id')->get();
+        $students = Student::with('major', 'user')->orderByDesc('id')->get();
         $title = "Student Management";
         return view('student.index', compact('students', 'title'));
     }
@@ -43,10 +45,30 @@ class StudentController extends Controller
             'phone' => 'nullable'
         ]);
 
-
-        Student::create($request->all());
-        Alert::success('Success!!', 'Create student success');
-        return redirect()->to('student');
+        DB::beginTransaction();
+        try {
+            // insert user
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password,
+            ]);
+            // insert students
+            Student::create([
+                'name' => $request->name,
+                'user_id' => $user->id,
+                'major_id' => $request->major_id,
+                'phone'   => $request->phone,
+            ]);
+            DB::commit();
+            Alert::success('Success!!', 'Create student success');
+            return redirect()->to('student');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $th->getMessage();
+            Alert::error('Fail!!', $th->getMessage());
+            return back()->withInput();
+        }
     }
 
     /**
@@ -63,7 +85,7 @@ class StudentController extends Controller
     public function edit(string $id)
     {
         $title = "Edit Student";
-        $edit  = Student::find($id); //blank
+        $edit  = Student::with('user')->find($id); //blank
         $majors = Majors::get();
         // $edit  = User::findOrFail($id); 404
         return view('student.edit', compact('title', 'edit', 'majors'));
@@ -72,26 +94,55 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,  Student $student)
     {
-        $data = [
-            'major_id' => $request->major_id,
-            'name' => $request->name,
-            'phone' => $request->phone,
-        ];
+        DB::beginTransaction();
 
-        Student::find($id)->update($data);
-        Alert::success('Success!!', 'Update student success');
-        return redirect()->to('student');
+        try {
+
+            $dataUser = [
+                'name' => $request->name,
+                'email' => $request->email
+            ];
+            $user = $student->user;
+            // jika user ingin mengganti password
+            if ($request->filled('password')) {
+                $dataUser['password'] = $request->password;
+            }
+
+            $user->update($dataUser);
+
+            $data = [
+                'major_id' => $request->major_id,
+                'name' => $request->name,
+                'phone' => $request->phone,
+            ];
+
+            $student->update($data);
+            DB::commit();
+            Alert::success('Success!!', 'Update student success');
+            return redirect()->to('student');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $th->getMessage();
+            Alert::error('Fail!!', $th->getMessage());
+            return back()->withInput();
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Student $student)
     {
-        Student::find($id)->delete();
-        Alert::success('Success!!', 'Delete student success');
-        return redirect()->to('role');
+        try {
+            $student->user()->delete();
+            Alert::success('Success!!', 'Delete student success');
+            return redirect()->to('student');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::error('Fail!!', $th->getMessage());
+            return back();
+        }
     }
 }
