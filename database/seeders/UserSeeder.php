@@ -17,9 +17,10 @@ class UserSeeder extends Seeder
     {
         // insert into
         User::create([
-            'name'  => 'Reza Ibrahim',
-            'email' => 'admin@gmail.com',
+            'name'  => 'Student',
+            'email' => 'doni@gmail.com',
             'password' => Hash::make('12345678'),
+            'role_id' => 2
         ]);
     }
 }

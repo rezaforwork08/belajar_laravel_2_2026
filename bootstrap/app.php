@@ -15,6 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'prevent-back' => \App\Http\Middleware\PreventBackHistory::class,
         ]);
     })
+    ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->alias([
+            'CheckMenuAccess' => \App\Http\Middleware\CheckMenuAccess::class,
+        ]);
+    })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

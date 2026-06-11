@@ -35,10 +35,11 @@ Route::post('action-logout', [LoginController::class, 'actionLogout'])
     ->name('action-logout');
 
 
-Route::middleware(['auth', 'prevent-back'])->group(function () {
+Route::middleware(['auth', 'prevent-back', 'CheckMenuAccess'])->group(function () {
     Route::get('dashboard', function () {
         return view('dashboard.index');
     });
+    Route::resource('menu', \App\Http\Controllers\MenuController::class);
     // resource : GET, POST, PUT, DELETE
     Route::resource('user', \App\Http\Controllers\UserController::class);
     Route::resource('role', \App\Http\Controllers\RoleController::class);
